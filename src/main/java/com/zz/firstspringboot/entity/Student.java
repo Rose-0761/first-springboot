@@ -14,11 +14,10 @@ public class Student {
   private String stuSex;
   private String stuAge;
   private long teamId;
-  private String teamName;
-  private String collegeName;
+  private Team team;
+  private College college;
 
-
-  private Integer deleted;
+  private  Integer deleted;
 
 
   public long getId() {
@@ -66,21 +65,5 @@ public class Student {
   }
 
 
-  public long getTeamId() {
-    return teamId;
-  }
-
-  public void setTeamId(long teamId) {
-    this.teamId = teamId;
-  }
-
-
-  public Integer getDeleted() {
-    return deleted;
-  }
-
-  public void setDeleted(Integer deleted) {
-    this.deleted = deleted;
-  }
 
 }

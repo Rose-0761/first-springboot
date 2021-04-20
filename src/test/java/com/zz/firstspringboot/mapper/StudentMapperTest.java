@@ -3,15 +3,12 @@ package com.zz.firstspringboot.mapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zz.firstspringboot.FirstSpringbootApplicationTests;
-import com.zz.firstspringboot.entity.College;
 import com.zz.firstspringboot.entity.Student;
-import org.apache.ibatis.session.SqlSession;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 class StudentMapperTest extends FirstSpringbootApplicationTests {
 
@@ -20,16 +17,16 @@ class StudentMapperTest extends FirstSpringbootApplicationTests {
     @Test
     void findAll() {
         List<Student> list =studentMapper.findAll();
-        for (Student s: list){
-            System.out.println(s); } }
+         for (Student s : list){
+            System.out.println(s);}}
     @Test
     void findOneById(){
-       Student student = studentMapper.findOneById(7);
+       Student student = studentMapper.findOneById(5);
         System.out.println(student);
     }
     @Test
     void findByIf(){
-    List<Student> students = studentMapper.findByIf("7777","BBB");
+    List<Student> students = studentMapper.findByIf("5555","迪奥","科技学院","科技1班");
     System.out.println(students);
     }
 
@@ -38,7 +35,7 @@ class StudentMapperTest extends FirstSpringbootApplicationTests {
         Student student = new Student();
         student.setId(7);
         student.setStuName("BBB");
-        student.setStuAge("15");
+        student.setStuAge("16");
         student.setStuSex("女");
         student.setStuCode("7777");
         student.setTeamId(2);

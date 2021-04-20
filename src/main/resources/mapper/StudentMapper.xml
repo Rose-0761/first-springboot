@@ -3,25 +3,86 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper  namespace="com.zz.firstspringboot.mapper.StudentMapper" >
+<resultMap id="StudentMapper" type="Student">
+<id property="id" column="id"/>
+    <result property="stuCode" column="stu_code"/>
+    <result property="stuName" column="stu_name"/>
+    <result property="stuSex" column="stu_sex"/>
+    <result property="teamId" column="team_id"/>
+    <result property="stuAge" column="stu_age"/>
+    <result property="teamId" column="team_id"/>
+    <result property="deleted" column="deleted"/>
 
+    <association property="team" javaType="team">
+        <id property="id" column="id"/>
+        <result property="teamCode" column="team_code"/>
+        <result property="teamName" column="team_name"/>
+        <result property="collegeId" column="college_id"/>
+        <result property="deleted" column="deleted"/>
+    </association>
+    <association property="college" javaType="college">
+        <id property="id" column="id"/>
+        <result property="collegeCode" column="college_code"/>
+        <result property="collegeName" column="college_name"/>
+        <result property="deleted" column="deleted"/>
+    </association>
+
+</resultMap>
     <!--   List <Student> findAll();-->
-    <select id="findAll" resultType="Student">
-        select * from student ,team ,college  where student.deleted=0
-                                                AND student.team_id=team.id
-                                                And team.college_id=college.id
+    <select id="findAll" resultMap="StudentMapper">
+
+        select
+          student.stu_code,student.stu_name,student.stu_sex,student.stu_age,
+          team.team_name,college.college_name
+
+
+        ,student.id,team.id,student.team_id,student.deleted, team.team_code,
+        team.college_id,team.deleted,college.id,college.college_code,college.deleted
+        from student
+        JOIN team
+        ON student.team_id = team.id
+        JOIN college
+        ON team.college_id = college.id
+        where student.deleted=0
+
     </select>
-    <select id="findByIf" resultType="Student" parameterType="Student">
-        Select * from student,team,college where student.team_id=team.id
-                                             AND student.deleted=0
-                                             And team.college_id=college.id
+    <select id="findByIf"  resultMap="StudentMapper">
+        Select * from student
+                          JOIN team ON student.team_id = team.id
+                          JOIN college ON team.college_id = college.id
 
+                         <where>
+                             <if test="stuCode != null">
+                             AND student.stu_code=#{stuCode}
+                             </if>
+                             <if test="stuName != null">
+                             AND student.stu_name=#{stuName}
+                             </if>
+                             <if test="teamName != null">
+                             AND team.team_name=#{teamName}
+                             </if>
+                              <if test="collegeName != null">
+                                  AND college.college_name=#{collegeName}
+                              </if>
+                             AND student.deleted=0
+                          </where>
 
-
-                                             AND stu_code=#{stuCode}
-                                             AND stu_name=#{stuName}
+    </select>
+    <select id="findOneById"  resultMap="StudentMapper">
+        Select * from student
+                          JOIN team
+                               ON student.team_id = team.id
+                          JOIN college
+                               ON team.college_id = college.id
+                          <where>
+                          <if test="id != null">
+                          AND student.id=#{id}
+                          </if>
+                          AND student.deleted=0
+                          </where>
     </select>
 
-    <update id="updateStu" parameterType="Student">
+    <update id="updateStu" parameterType="Student" >
         update student
         set
             stu_code = #{stuCode},

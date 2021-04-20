@@ -12,19 +12,14 @@ import java.util.Map;
 
 public interface StudentMapper {
 
-    List<Student> findAll();
-
+    List<Student> findAll();//✔2021.4.20
+    Student findOneById(@Param("id") long id);//✔2021.4.20
     List<Student> findByIf(@Param("stuCode") String stuCode,
-                           @Param("stuName") String stuName);
-
-
-    @Select("Select * from student where id =#{id}")
-    Student findOneById(@Param("id") long id);
-
+                           @Param("stuName") String stuName,
+                           @Param("collegeName")String collegeName,
+                           @Param("teamName") String teamName);//✔2021.4.20
     Student updateStu(Student student);
-
     Student insertStu(Student student);
-
     int deleteStu(long id);
 
 }
