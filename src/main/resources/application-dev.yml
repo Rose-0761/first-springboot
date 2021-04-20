@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+  servlett:
+    #项目路径
+    context-path: /
+#连接数据库信息
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/school?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    #配置jsp前缀和后缀
+    view:
+      prefix: /WEB-INF/
+      suffix:  .jsp
+#逻辑配置
+mybatis-plus:
+  global-config:
+    db-config:
+      #logic-delete-field: flag
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+
+
+#mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.zz.firstspringboot.entity
+  configuration:
+    map-underscore-to-camel-case: true
+#查看sql语句
+logging:
+  level:
+    com.zz.firstspringboot.mapper: DEBUG
+
+aliyun:
+  xxxx: xxxxxxxxxxxx
+  yyyy: yyyyyyyyy
+  zzzz: zzzzzz
+  aaaa: aaaaaa
+  bbbb: bbbbb
+

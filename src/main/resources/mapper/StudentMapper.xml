@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zz.firstspringboot.mapper.StudentMapper" >
+
+    <!--   List <Student> findAll();-->
+    <select id="findAll" resultType="Student">
+        select * from student ,team ,college  where student.deleted=0
+                                                AND student.team_id=team.id
+                                                And team.college_id=college.id
+    </select>
+    <select id="findByIf" resultType="Student" parameterType="Student">
+        Select * from student,team,college where student.team_id=team.id
+                                             AND student.deleted=0
+                                             And team.college_id=college.id
+
+
+
+                                             AND stu_code=#{stuCode}
+                                             AND stu_name=#{stuName}
+    </select>
+
+    <update id="updateStu" parameterType="Student">
+        update student
+        set
+            stu_code = #{stuCode},
+            stu_name = #{stuName},
+            stu_sex = #{stuSex},
+            stu_age = #{stuAge},
+            team_id= #{teamId}
+        where id = #{id}
+           AND deleted=0
+    </update>
+    <update id="deleteStu" parameterType="Student">
+        update student
+        set
+            deleted=1
+        where
+            id = #{id}
+          AND
+            deleted=0
+
+    </update>
+    <insert id="insertStu" parameterType="Student" >
+        insert into student(stu_code,stu_name,stu_age,stu_sex,team_id)
+        values(#{stuCode},#{stuName},#{stuAge},#{stuSex},#{teamId})
+    </insert>
+
+
+</mapper>
