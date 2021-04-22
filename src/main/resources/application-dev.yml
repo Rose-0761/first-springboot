@@ -17,16 +17,6 @@ spring:
     view:
       prefix: /WEB-INF/
       suffix:  .jsp
-#逻辑配置
-mybatis-plus:
-  global-config:
-    db-config:
-      #logic-delete-field: flag
-      logic-delete-value: 0
-      logic-not-delete-value: 1
-
-
-
 #mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml

@@ -1,33 +1,78 @@
 package com.zz.firstspringboot.mapper;
 
-import com.zz.firstspringboot.FirstSpringbootApplicationTests;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zz.firstspringboot.FirstSpringbootApplication;
 import com.zz.firstspringboot.entity.College;
+
+
+import com.zz.firstspringboot.entity.Student;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-class CollegeMapperTest extends FirstSpringbootApplicationTests {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = FirstSpringbootApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+class CollegeMapperTest  {
 
 
     @Autowired
-   private CollegeMapper mapper;
+   private CollegeMapper collegemapper;
 
     @Test
-    void findAll(){
-        List<College> list = mapper.findAll();
+    void findCollAll(){
+        List<College> list = collegemapper.findCollAll();
         for (College college:list){
-            System.out.println(college);
+            System.out.println(college); } }
+    @Test
+    void findCollByIf(){
+        List<College> list = collegemapper.findCollByIf("2","工程学院");
+        for(College c:list){
+            System.out.println(c); } }
+
+    @Test
+    void insertColl(){
+        College college = new College();
+        college.setCollegeCode("7");
+        college.setCollegeName("GGG");
+        try{
+             collegemapper.insertColl(college);
+        }catch (Exception e){ }
+        System.out.println("输入信息："+college);}
+    @Test
+    void updateColl() {
+        College college = new College();
+        college.setId(6);
+        college.setCollegeCode("6");
+        college.setCollegeName(":-D");
+        try{
+            collegemapper.updateColl(college);
+        }catch (Exception e){
+
         }
+        System.out.println("输出信息："+college);
     }
 
     @Test
-    void findOneById(){
-       College college = mapper.findOneById(2);
-       System.out.println(college);
-    }
+    void deleteColl(){
+        int D = collegemapper.deleteColl(5); }
 
 
+    @Test
+    public void findByPage(){
+        //1.执行分页
+        PageHelper.startPage(1,5);
+        //2.执行查询
+        List<College> list = collegemapper.findCollAll();
+        //3.封装PageInfo对象
+        PageInfo<College> pageInfo = new PageInfo<>(list);
+        //4.输出
+        for (College college : pageInfo.getList()){
+            System.out.println(college); } }
 }
