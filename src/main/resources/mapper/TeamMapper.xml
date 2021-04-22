@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.firstspringboot.mapper.TeamMapper">
+    <resultMap id="TeamMapper" type="Team">
+        <id property="id" column="id"/>
+            <result property="teamCode" column="team_code"/>
+            <result property="teamName" column="team_name"/>
+            <result property="collegeId" column="college_id"/>
+            <result property="deleted" column="deleted"/>
+
+        <association property="college" javaType="college">
+            <id property="id" column="id"/>
+            <result property="collegeCode" column="college_code"/>
+            <result property="collegeName" column="college_name"/>
+            <result property="deleted" column="deleted"/>
+        </association>
+    </resultMap>
+    <!-- List<Team> findTeamAll()-->
+    <select id="findTeamAll" resultMap="TeamMapper" >
+        select team.team_code,team_name,college.college_name
+
+        ,team.id,team.deleted,college.id,college.college_code,college.deleted
+        from team
+        JOIN college ON team.college_id=college.id
+        where team.deleted=0
+    </select>
+    <!--  Team findTeamByIf(..);-->
+    <select id="findTeamByIf"  resultMap="TeamMapper">
+        Select * from team
+        JOIN college ON team.college_id = college.id
+
+        <where>
+            <if test="collegeName != null">
+                AND college.college_Name=#{collegeName}
+            </if>
+            <if test="teamCode != null">
+                AND team.team_code=#{teamCode}
+            </if>
+            <if test="teamName != null">
+                AND team.team_name=#{teamName}
+            </if>
+            AND team.deleted=0
+        </where>
+
+    </select>
+    <!--  Team findTeamById(...);/-->
+    <select id="findTeamById"  resultMap="TeamMapper">
+        Select * from team
+        JOIN college
+        ON team.college_id = college.id
+        <where>
+            <if test="id != null">
+                AND team.id=#{id}
+            </if>
+            AND team.deleted=0
+        </where>
+    </select>
+    <!--  Team updateTeam(Team team);-->
+    <update id="updateTeam" parameterType="Team" >
+        update team
+        <set>
+            <if test="teamCode != null">
+                team_code = #{teamCode},</if>
+            <if test="teamName != null">
+                team_name =#{teamName},</if>
+            <if test="collegeId != null">
+                college_id =#{collegeId} </if>
+        </set>
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            AND deleted=0
+        </where>
+    </update>
+    <!--    Team insertTeam(Team team);-->
+    <insert id="insertTeam" parameterType="Team" >
+        insert into team
+        (team_code,team_name,college_id)
+        <trim prefix=" values  ( " suffix=" ) " suffixOverrides=" , ">
+            <if test="teamCode != null">
+                #{teamCode},
+            </if>
+            <if test="teamName != null">
+                #{teamName},
+            </if>
+            <if test="collegeId != null">
+                #{collegeId},
+            </if>
+        </trim>
+
+    </insert>
+    <!--     Team deleteTeam(long id);-->
+    <update id="deleteTeam" parameterType="Team">
+        update team
+        set
+        deleted=1
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            AND deleted=0
+        </where>
+    </update>
+
+
+</mapper>

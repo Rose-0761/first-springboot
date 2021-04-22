@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.firstspringboot.mapper.CollegeMapper" >
+    <resultMap id="CollegeMapper" type="College">
+        <id property="id" column="id"/>
+        <result property="collegeCode" column="college_code"/>
+        <result property="collegeName" column="college_name"/>
+        <result column="deleted" property="deleted"/>
+     </resultMap>
+    <!--   List<College> findCollAll();-->
+    <select id="findCollAll" resultMap="CollegeMapper" >
+        select id,college_code,college_name,deleted
+        from college
+        where deleted=0
+    </select>
+    <!-- College findCollByIf(...);-->
+    <select id="findCollByIf" resultMap="CollegeMapper">
+        select id,college_code,college_name,deleted
+        from college
+       <where>
+           <if test="collegeCode != null">
+            AND college_code=#{collegeCode}
+           </if>
+           <if test="collegeName != null">
+            AND college_name=#{collegeName}
+           </if>
+           AND deleted= 0
+       </where>
+    </select>
+    <!-- College updateColl(...);-->
+    <update id="updateColl" parameterType="College" >
+        update college
+       <set>
+            <if test="collegeCode != null">
+                college_code = #{collegeCode},
+            </if>
+            <if test="collegeName != null">
+                college_name = #{collegeName}
+            </if>
+        </set>
+
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            AND deleted=0
+        </where>
+    </update>
+
+   <!--  College insertColl(...);-->
+   <insert id="insertColl" parameterType="College">
+       insert into college
+           (college_code,college_name)
+       <trim prefix=" values  ( " suffix=" ) " suffixOverrides=" , ">
+           <if test="collegeCode != null">
+               #{collegeCode},
+           </if>
+           <if test="collegeName != null">
+               #{collegeName},
+           </if>
+       </trim>
+   </insert>
+    <!--  College deleteColl(...);-->
+    <update id="deleteColl" parameterType="College">
+        update college
+        set
+            deleted=1
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            AND deleted=0
+        </where>
+
+    </update>
+</mapper>

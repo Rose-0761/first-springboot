@@ -16,7 +16,6 @@ public class Student {
   private long teamId;
   private Team team;
   private College college;
-
   private  Integer deleted;
 
 

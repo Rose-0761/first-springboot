@@ -1,25 +1,23 @@
 package com.zz.firstspringboot.mapper;
 
-import com.zz.firstspringboot.entity.College;
+import com.github.pagehelper.Page;
 import com.zz.firstspringboot.entity.Student;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
-import java.util.Map;
 
+@Repository
 public interface StudentMapper {
 
-    List<Student> findAll();//✔2021.4.20
-    Student findOneById(@Param("id") long id);//✔2021.4.20
-    List<Student> findByIf(@Param("stuCode") String stuCode,
+    List<Student> findStuAll();
+    Student findStuById(@Param("id") long id);
+    Student findStuByIf(@Param("stuCode") String stuCode,
                            @Param("stuName") String stuName,
                            @Param("collegeName")String collegeName,
-                           @Param("teamName") String teamName);//✔2021.4.20
+                           @Param("teamName") String teamName);
     Student updateStu(Student student);
     Student insertStu(Student student);
-    int deleteStu(long id);
-
+    Student  deleteStu(long id);
 }

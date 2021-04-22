@@ -9,7 +9,9 @@ public class Team {
   private String teamCode;
   private String teamName;
   private long collegeId;
+  private College college;
   private Integer deleted;
+
 
 
   public long getId() {
@@ -39,21 +41,6 @@ public class Team {
   }
 
 
-  public long getCollegeId() {
-    return collegeId;
-  }
 
-  public void setCollegeId(long collegeId) {
-    this.collegeId = collegeId;
-  }
-
-
-  public Integer getDeleted() {
-    return deleted;
-  }
-
-  public void setDeleted(Integer deleted) {
-    this.deleted = deleted;
-  }
 
 }
